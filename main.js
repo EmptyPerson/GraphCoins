@@ -162,4 +162,5 @@ main();
 // }
 
 // d.getData(`https://rest.coinapi.io/v1/ohlcv/${symbolId}/history?period_id=${periodId}&time_start=2016-01-01T00:00:00`).then((data, da) => alert(data, da));
-// alert(d.startPeriods);
+// alert(d.startPeriods);tes
+//S 
