@@ -1,18 +1,20 @@
 'use strict'
+
 class DataModel {
     constructor() {
         this.startPeriods = [];
         this.openPrices = [];
-        this.url = `https://rest.coinapi.io/v1/ohlcv/${symbolId}/history?period_id=${periodId}&time_start=${time_start}&time_end=${time_end}&limit=${limit}`;
+
         this.urlPeriod = `https://rest.coinapi.io/v1/ohlcv/periods`;
         this.periodId = [];
         this.lengthSeconds = [];
         this.periodMap = new Map();
     }
-    async getData() {
+    async getData(periodId) {
+        this.url = `https://rest.coinapi.io/v1/ohlcv/${symbolId}/history?period_id=${periodId}&time_start=${time_start}&time_end=${time_end}&limit=${limit}`;
         let response =  await fetch(this.url, {
             method: "GET",
-            headers: {"X-CoinAPI-Key": "899668AD-E295-40F7-903B-CFE2D7DAF0C0"},
+            headers: {"X-CoinAPI-Key": "8C68FF6B-234A-4AF4-9629-4E4CF5DF8DE8"},
         });
         alert(response.status);
         let data = await response.json();
@@ -49,6 +51,20 @@ class DataModel {
         //     this.startPeriods.push(new Date(note['time_period_start']));
         //     this.openPrices.push(note['price_open']);
         // };
+    }
+    CalculatePeriodId(limit = 100, time_start, time_end) {
+        let time_1 = new Date(time_start);
+        let time_2 = new Date(time_end);
+        let diffSeconds = (time_2.getTime() - time_1.getTime()) / (1000 * limit);
+        let periodFlag = [];
+
+        this.periodMap.forEach((value, key, map) => {
+            if (value >= diffSeconds) {
+                periodFlag.push(key);
+            }
+        });
+
+        return periodFlag[0];
     }
     static FormatDate(date) {
 
@@ -123,46 +139,28 @@ class ControlModel {
     constructor() {
 
     }
-};
-
-// Second	1SEC, 2SEC, 3SEC, 4SEC, 5SEC, 6SEC, 10SEC, 15SEC, 20SEC, 30SEC
-// Minute	1MIN, 2MIN, 3MIN, 4MIN, 5MIN, 6MIN, 10MIN, 15MIN, 20MIN, 30MIN
-// Hour	1HRS, 2HRS, 3HRS, 4HRS, 6HRS, 8HRS, 12HRS
-// Day	1DAY, 2DAY, 3DAY, 5DAY, 7DAY, 10DAY
-// Month	1MTH, 2MTH, 3MTH, 4MTH, 6MTH
-// Year	1YRS, 2YRS, 3YRS, 4YRS, 5YRS
-function CalculatePeriodId(time_start, time_end, countGraphPoints = 100) {
-    let periodMap = new Map();
-    //let countGraphPoints = 100;
-
-    periodMap.set("1SEC", 1 * countGraphPoints);
-    periodMap.set("2SEC", 2 * countGraphPoints);
-    periodMap.set("3SEC", 3 * countGraphPoints);
-    periodMap.set("4SEC", 4 * countGraphPoints);
-    periodMap.set("5SEC", 5 * countGraphPoints);
-    periodMap.set("6SEC", 6 * countGraphPoints);
-    periodMap.set("10SEC", 10 * countGraphPoints);
-    periodMap.set("15SEC", 15 * countGraphPoints);
-    periodMap.set("20SEC", 20 * countGraphPoints);
-    periodMap.set("30SEC", 30 * countGraphPoints);
-    periodMap.set("1MIN", 60 * countGraphPoints);
-    periodMap.set("2MIN", 120 * countGraphPoints);
-    periodMap.set("3MIN", 180 * countGraphPoints);
-    periodMap.set("4MIN", 240 * countGraphPoints);
-    periodMap.set("5MIN", 300 * countGraphPoints);
-    periodMap.set("6MIN", 360 * countGraphPoints);
-    periodMap.set("10MIN", 600 * countGraphPoints);
-    periodMap.set("15MIN", 900 * countGraphPoints);
-    periodMap.set("20MIN", 1200 * countGraphPoints);
-    periodMap.set("30MIN", 1800 * countGraphPoints);
-    periodMap.set("15MIN", 900 * countGraphPoints);
-
 }
+
+
+// function CalculatePeriodId(periodMap, limit = 100, time_start, time_end) {
+//     let time_1 = new Date(time_start);
+//     let time_2 = new Date(time_end);
+//     let diffSeconds = (time_2.getTime() - time_1.getTime()) / (1000 * limit);
+//     let periodFlag = [];
+//
+//     periodMap.forEach((value, key, map) => {
+//         if (value >= diffSeconds) {
+//             periodFlag.push(key);
+//         }; // огурец: 500 и так далее
+//     });
+//
+//     return periodFlag[0];
+// }
 
 
 const time_start = '2018-01-01T00:00:00';
 const symbolId = 'BITSTAMP_SPOT_BTC_USD';
-const periodId = '1HRS';
+//const periodId = '1HRS';
 const time_end = '2018-01-02T00:00:00';
 const limit = 100;
 let data = new DataModel();
@@ -171,15 +169,12 @@ const el = document.getElementById('myChart');
 const ctx = el.getContext('2d');
 
 async function main() {
-    let period = await data.getPeriod();
-    alert(period.get('5SEC'));
-    let result = await data.getData();
-    alert(result[0]);
+    await data.getPeriod();
+    let periodId = data.CalculatePeriodId(100, time_start, time_end);//CalculatePeriodId(data.periodMap, 100, time_start, time_end);
+    let result = await data.getData(periodId);
     let date =  result[0].map(DataModel.FormatDate);//  result[0].map(formatDate);
     let price = result[1];
-
     let view = new viewModel(date, price);
     let myChart = new Chart(ctx, view.chartConfig());
-
 }
 main();
