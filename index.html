@@ -3,9 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .dropbtn {
+            background-color: #3498DB;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+        .dropbutton {
+            background-color: #3498DB;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbutton:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdowntime-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdowntime-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {background-color: #ddd;}
+
+        .show {display: block;}
+    </style>
 </head>
 <body>
-<canvas id="myChart" width="400" height="400"></canvas>
+<div class="dropdown">
+    <p>Choose coin:</p>
+    <button onclick="ButtonChooseCoin()" class="dropbtn" id="choose-coin"> Bitcoin </button>
+    <div id="myDropdownCoin" class="dropdown-content">
+
+        <p onclick="ChooseCoin('Bitcoin')">Bitcoin</p>
+        <p onclick="ChooseCoin('Ethereum')">Ethereum</p>
+        <p onclick="ChooseCoin('Atom')">Atom</p>
+        <p onclick="ChooseCoin('Doge')">Doge</p>
+
+    </div>
+</div>
+
+<div class="dropdown">
+    <p>Choose time:</p>
+    <button onclick="ButtonChooseTime()" class="dropbutton" id="choose-time"> 1 day </button>
+    <div id="myDropdownTime" class="dropdowntime-content">
+
+        <p onclick="ChooseTime('6 hours')">6 hours</p>
+        <p onclick="ChooseTime('12 hours')">12 hours</p>
+        <p onclick="ChooseTime('1 day')">1 day</p>
+        <p onclick="ChooseTime('5 days')">5 days</p>
+        <p onclick="ChooseTime('10 days')">10 days</p>
+        <p onclick="ChooseTime('15 days')">15 days</p>
+        <p onclick="ChooseTime('1 month')">1 month</p>
+        <p onclick="ChooseTime('3 months')">3 month</p>
+        <p onclick="ChooseTime('6 months')">6 month</p>
+        <p onclick="ChooseTime('1 year')">1 year</p>
+        <p onclick="ChooseTime('2 year')">2 year</p>
+
+    </div>
+</div>
+
+<canvas id="myChart" width=window.screen.width height=window.screen.height></canvas>
 <script src=https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js></script>
 <script src="main.js"></script>
 </body>
