@@ -9,7 +9,7 @@ class DataModel {
         this.periodMap = new Map();
         this.symbolMap = new Map();
         this.periodFlag = [];
-        this.APIKey = {"X-CoinAPI-Key": "7382133D-FE4D-4446-B34D-F7C924F9B538"};
+        this.APIKey = {"X-CoinAPI-Key": "8A3462EF-3701-4C46-BBD8-6574DC42CF40"};
     }
 
     async getData(periodId) {
@@ -158,15 +158,16 @@ class viewModel {
                     ],
                     borderWidth: 1
                 }]
-            }//,
-            // options: {
-            //     scales: {
-            //         y: { // defining min and max so hiding the dataset does not change scale range
-            //             min: 0,
-            //             max: 70000
-            //         }
-            //     }
-            // }
+            },
+             options: {
+                 plugins: {
+                     legend: {
+                         display: false,
+
+                     }
+                 }
+             }
+
         };
 
     }
@@ -207,7 +208,7 @@ function ButtonChooseTime() {
 async function ChooseTime(ChoiceTime) {
     data.cleaningDate();
     time_start = setTime(TimeId.get(ChoiceTime));
-    document.getElementById("choose-time").innerText = ChoiceTime;
+    //document.getElementById("choose-time").innerText = ChoiceTime;
     await main();
 }
 
@@ -240,6 +241,7 @@ function setTime(date) {
 
     return yy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + ss;
 }
+
 function addData(chart, labels, data) {
     labels.forEach((label) => {
         chart.data.labels.push(label);
@@ -257,11 +259,11 @@ function removeData(chart) {
     myChart.data.datasets[0].data = []
     chart.update();
 }
-
+//&& !event.target.matches('.dropbutton')
 window.onclick = function (event) {
-    if (!event.target.matches('.dropbtn') && !event.target.matches('.dropbutton')) {
+    if (!event.target.matches('.dropbtn')) {
         let dropdowns = document.getElementsByClassName("dropdown-content");
-        let dropdownsTime = document.getElementsByClassName("dropdowntime-content");
+        //let dropdownsTime = document.getElementsByClassName("dropdowntime-content");
         let i;
         for (i = 0; i < dropdowns.length; i++) {
             let openDropdown = dropdowns[i];
@@ -270,12 +272,12 @@ window.onclick = function (event) {
             }
         }
 
-        for (i = 0; i < dropdownsTime.length; i++) {
-            let openDropdown = dropdownsTime[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
+        // for (i = 0; i < dropdownsTime.length; i++) {
+        //     let openDropdown = dropdownsTime[i];
+        //     if (openDropdown.classList.contains('show')) {
+        //         openDropdown.classList.remove('show');
+        //     }
+        // }
     }
 }
 
@@ -287,25 +289,29 @@ let diffTime = new Date();
 diffTime.setDate(diffTime.getDate() - 1);
 let time_end = setTime(today);
 let time_start = setTime(diffTime);
-const limit = 300;
+const limit = 10000;
 
 let TimeId = new Map();
 
-TimeId.set('6 hours', new Date(new Date().setHours(today.getHours() - 6)));
+//TimeId.set('6 hours', new Date(new Date().setHours(today.getHours() - 6)));
+TimeId.set('6 hour', new Date(new Date().setHours(today.getHours() - 6)));
 TimeId.set('12 hours', new Date(new Date().setHours(today.getHours() - 12)));
 TimeId.set('1 day', new Date(new Date().setDate(today.getDate() - 1)));
-TimeId.set('5 days', new Date(new Date().setDate(today.getDate() - 5)));
-TimeId.set('10 days', new Date(new Date().setDate(today.getDate() - 10)));
-TimeId.set('15 days', new Date(new Date().setDate(today.getDate() - 15)));
+TimeId.set('1 week', new Date(new Date().setDate(today.getDate() - 7)));
+//TimeId.set('5 days', new Date(new Date().setDate(today.getDate() - 5)));
+// TimeId.set('10 days', new Date(new Date().setDate(today.getDate() - 10)));
+// TimeId.set('15 days', new Date(new Date().setDate(today.getDate() - 15)));
 TimeId.set('1 month', new Date(new Date().setMonth(today.getMonth() - 1)));
-TimeId.set('3 months', new Date(new Date().setMonth(today.getMonth() - 3)));
-TimeId.set('6 months', new Date(new Date().setMonth(today.getMonth() - 6)));
+//TimeId.set('3 months', new Date(new Date().setMonth(today.getMonth() - 3)));
+//TimeId.set('6 months', new Date(new Date().setMonth(today.getMonth() - 6)));
 TimeId.set('1 year', new Date(new Date().setFullYear(today.getFullYear() - 1)));
-TimeId.set('2 year', new Date(new Date().setFullYear(today.getFullYear() - 2)));
+//TimeId.set('2 year', new Date(new Date().setFullYear(today.getFullYear() - 2)));
 
 let data = new DataModel();
 const el = document.getElementById('myChart');
 const ctx = el.getContext('2d');
+// ctx.canvas.width = window.innerWidth;
+// ctx.canvas.height = window.innerHeight;
 let view = new viewModel();
 let myChart = new Chart(ctx, view.chartConfig());
 

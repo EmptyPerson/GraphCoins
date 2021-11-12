@@ -5,16 +5,16 @@
     <title>Title</title>
     <style>
         .dropbtn {
-            background-color: #3498DB;
+            background-color: #434546;
             color: white;
-            padding: 16px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 10px;
             border: none;
             cursor: pointer;
         }
 
         .dropbtn:hover, .dropbtn:focus {
-            background-color: #2980B9;
+            background-color: #000000;
         }
 
         .dropbutton {
@@ -27,12 +27,18 @@
         }
 
         .dropbutton:hover, .dropbtn:focus {
-            background-color: #2980B9;
+            background-color: #000000;
         }
 
         .dropdown {
             position: relative;
             display: inline-block;
+            width: 100%;
+            margin: 0;
+        }
+
+        .dropdown a:hover {
+            background-color: #ddd;
         }
 
         .dropdown-content {
@@ -41,7 +47,7 @@
             background-color: #f1f1f1;
             min-width: 160px;
             overflow: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
@@ -58,57 +64,117 @@
             background-color: #f1f1f1;
             min-width: 160px;
             overflow: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
         .dropdowntime-content a {
-            color: black;
+            color: #000000;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
 
-        .dropdown a:hover {background-color: #ddd;}
 
-        .show {display: block;}
+        .text {
+            display: inline-block;
+            font-size: 20px;
+
+        }
+
+        .timebutton {
+            display: inline-block;
+            margin-left: 200px;
+        }
+
+        .btn {
+            margin-left: 5px;
+            margin-right: 0px;
+            background-color: #868484;
+            color: #a6a4a4;
+            padding: 8px;
+            font-size: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover, .btn:focus {
+            background-color: #000000;
+        }
+
+        /*html, body {*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    margin: 0;*/
+        /*    position: fixed;*/
+        /*}*/
+        .conv {
+            width: 89%;
+            height: 100%;
+            margin: 0;
+
+        }
+
+        .show {
+            display: block;
+        }
     </style>
 </head>
 <body>
-<div class="dropdown">
-    <p>Choose coin:</p>
-    <button onclick="ButtonChooseCoin()" class="dropbtn" id="choose-coin"> Bitcoin </button>
-    <div id="myDropdownCoin" class="dropdown-content">
 
+
+<div class="dropdown">
+    <p class="text"> Choose coin: </p>
+    <button class="dropbtn" id="choose-coin" onclick="ButtonChooseCoin()"> Bitcoin</button>
+    <div class="dropdown-content" id="myDropdownCoin">
         <p onclick="ChooseCoin('Bitcoin')">Bitcoin</p>
         <p onclick="ChooseCoin('Ethereum')">Ethereum</p>
         <p onclick="ChooseCoin('Atom')">Atom</p>
         <p onclick="ChooseCoin('Doge')">Doge</p>
+    </div>
+<!--    <button class="dropbtn" id="choose-time" onclick="ButtonChooseTime()"> 1 day</button>-->
+<!--    <div class="dropdowntime-content" id="myDropdownTime">-->
 
+<!--        <p onclick="ChooseTime('6 hours')">6 hours</p>-->
+<!--        <p onclick="ChooseTime('12 hours')">12 hours</p>-->
+<!--        <p onclick="ChooseTime('1 day')">1 day</p>-->
+<!--        <p onclick="ChooseTime('5 days')">5 days</p>-->
+<!--        <p onclick="ChooseTime('10 days')">10 days</p>-->
+<!--        <p onclick="ChooseTime('15 days')">15 days</p>-->
+<!--        <p onclick="ChooseTime('1 month')">1 month</p>-->
+<!--        <p onclick="ChooseTime('3 months')">3 month</p>-->
+<!--        <p onclick="ChooseTime('6 months')">6 month</p>-->
+<!--        <p onclick="ChooseTime('1 year')">1 year</p>-->
+<!--        <p onclick="ChooseTime('2 year')">2 year</p>-->
+<!--    </div>-->
+    <div class="timebutton">
+        <button class="btn" onclick="ChooseTime('6 hour')"> 6 hour</button>
+        <button class="btn" onclick="ChooseTime('12 hours')"> 12 hours</button>
+        <button class="btn" onclick="ChooseTime('1 day')"> 1 day</button>
+        <button class="btn" onclick="ChooseTime('1 week')"> 1 week</button>
+        <button class="btn" onclick="ChooseTime('1 month')"> 1 month</button>
+        <button class="btn" onclick="ChooseTime('1 year')"> 1 year</button>
     </div>
 </div>
 
 <div class="dropdown">
-    <p>Choose time:</p>
-    <button onclick="ButtonChooseTime()" class="dropbutton" id="choose-time"> 1 day </button>
-    <div id="myDropdownTime" class="dropdowntime-content">
+    <!--    <p>Choose time:</p>-->
 
-        <p onclick="ChooseTime('6 hours')">6 hours</p>
-        <p onclick="ChooseTime('12 hours')">12 hours</p>
-        <p onclick="ChooseTime('1 day')">1 day</p>
-        <p onclick="ChooseTime('5 days')">5 days</p>
-        <p onclick="ChooseTime('10 days')">10 days</p>
-        <p onclick="ChooseTime('15 days')">15 days</p>
-        <p onclick="ChooseTime('1 month')">1 month</p>
-        <p onclick="ChooseTime('3 months')">3 month</p>
-        <p onclick="ChooseTime('6 months')">6 month</p>
-        <p onclick="ChooseTime('1 year')">1 year</p>
-        <p onclick="ChooseTime('2 year')">2 year</p>
-
-    </div>
 </div>
 
-<canvas id="myChart" width=window.screen.width height=window.screen.height></canvas>
+<!--<div class="timebutton">-->
+<!--    <button onclick="ChooseTime('1 hour')" class="btn"> 1 hour </button>-->
+<!--    <button onclick="ChooseTime('12 hours')" class="btn"> 12 hours </button>-->
+<!--    <button onclick="ChooseTime('1 day')" class="btn"> 1 day </button>-->
+<!--    <button onclick="ChooseTime('1 week')" class="btn"> 1 week </button>-->
+<!--    <button onclick="ChooseTime('1 month')" class="btn"> 1 month </button>-->
+<!--    <button onclick="ChooseTime('1 year')" class="btn"> 1 year </button>-->
+<!--</div>-->
+<div class="conv">
+    <canvas id="myChart"></canvas>
+</div>
+
+
 <script src=https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js></script>
 <script src="main.js"></script>
 </body>
