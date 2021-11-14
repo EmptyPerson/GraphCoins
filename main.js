@@ -78,7 +78,7 @@ class DataModel {
 
     }
 
-    CalculatePeriodId(limit = 100, time_start, time_end) {
+    CalculatePeriodId(limit, time_start, time_end) {
         let time_1 = new Date(time_start);
         let time_2 = new Date(time_end);
         let diffSeconds = (time_2.getTime() - time_1.getTime()) / (1000 * limit);
@@ -160,6 +160,15 @@ class viewModel {
                 }]
             },
              options: {
+                scales: {
+
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+
+                },
                  plugins: {
                      legend: {
                          display: false,
@@ -167,6 +176,8 @@ class viewModel {
                      }
                  }
              }
+
+
 
         };
 
@@ -289,7 +300,7 @@ let diffTime = new Date();
 diffTime.setDate(diffTime.getDate() - 1);
 let time_end = setTime(today);
 let time_start = setTime(diffTime);
-const limit = 10000;
+const limit = 100;
 
 let TimeId = new Map();
 
