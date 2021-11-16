@@ -9,7 +9,7 @@ class DataModel {
         this.periodMap = new Map();
         this.symbolMap = new Map();
         this.periodFlag = [];
-        this.APIKey = {"X-CoinAPI-Key": "8A3462EF-3701-4C46-BBD8-6574DC42CF40"};
+        this.APIKey = {"X-CoinAPI-Key": "24E08DB6-43BB-4192-A53A-353B2EEE4143"};
     }
 
     async getData(periodId) {
@@ -19,7 +19,7 @@ class DataModel {
             headers: this.APIKey,
         });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
             let data = await response.json();
 
             for (let note of data) {
@@ -40,7 +40,7 @@ class DataModel {
             headers: this.APIKey,
         });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
             let period = await response.json();
             for (let note of period) {
                 if (note['length_seconds'] != 0) {
@@ -63,7 +63,7 @@ class DataModel {
             headers: this.APIKey,
         });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
 
             let symbolID = await response.json();
 
@@ -101,7 +101,7 @@ class DataModel {
 
     }
 
-    static FormatDate(date) {
+    static FormatDate(date, format = 'dd.mm.yyyy hh:mm:ss') {
 
         let dd = date.getDate();
         if (dd < 10) dd = '0' + dd;
@@ -121,7 +121,10 @@ class DataModel {
         let ss = date.getSeconds();
         if (ss < 10) ss = '0' + ss;
 
-        return dd + '.' + mm + '.' + yy + ' ' + hh + ':' + min + ':' + ss;
+        if (format = 'dd.mm.yyyy hh:mm:ss') {
+            return dd + '.' + mm + '.' + yy + ' ' + hh + ':' + min + ':' + ss;
+        } else if (format = 'yyyy-mm-ddThh:mm:ss')
+        return yy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + ss;
     }
 
 }
@@ -156,6 +159,7 @@ class viewModel {
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
+
                     borderWidth: 1
                 }]
             },
@@ -165,9 +169,17 @@ class viewModel {
                     x: {
                         grid: {
                             display: false
+                        },
+                        ticks: {
+                            color: 'rgba(255, 99, 132, 1)'
+                        },
+
+                    },
+                    y: {
+                        ticks: {
+                            color: 'rgba(255, 99, 132, 1)'
                         }
                     }
-
                 },
                  plugins: {
                      legend: {
@@ -178,9 +190,24 @@ class viewModel {
              }
 
 
-
         };
 
+    }
+    addData(chart, labels, data) {
+        labels.forEach((label) => {
+            chart.data.labels.push(label);
+        })
+        chart.data.datasets.forEach((dataset) => {
+            data.forEach((note) => {
+                dataset.data.push(note);
+            })
+        });
+        chart.update();
+    }
+    removeData(chart) {
+        chart.data.labels = [];
+        myChart.data.datasets[0].data = []
+        chart.update();
     }
 }
 
@@ -208,18 +235,16 @@ class HttpError extends Error {
 }
 
 
+//input buttons
 function ButtonChooseCoin() {
     document.getElementById("myDropdownCoin").classList.toggle("show");
 }
 
-function ButtonChooseTime() {
-    document.getElementById("myDropdownTime").classList.toggle("show");
-}
 
 async function ChooseTime(ChoiceTime) {
     data.cleaningDate();
     time_start = setTime(TimeId.get(ChoiceTime));
-    //document.getElementById("choose-time").innerText = ChoiceTime;
+    document.getElementsByClassName("timeshow").innerText = "from " + DataModel.FormatDate(new Date(time_start), 'dd.mm.yyyy hh:mm:ss') + " to " + DataModel.FormatDate(new Date(time_end), 'dd.mm.yyyy hh:mm:ss');
     await main();
 }
 
@@ -253,28 +278,11 @@ function setTime(date) {
     return yy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + ss;
 }
 
-function addData(chart, labels, data) {
-    labels.forEach((label) => {
-        chart.data.labels.push(label);
-    })
-    chart.data.datasets.forEach((dataset) => {
-        data.forEach((note) => {
-            dataset.data.push(note);
-        })
-    });
-    chart.update();
-}
 
-function removeData(chart) {
-    chart.data.labels = [];
-    myChart.data.datasets[0].data = []
-    chart.update();
-}
-//&& !event.target.matches('.dropbutton')
 window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
         let dropdowns = document.getElementsByClassName("dropdown-content");
-        //let dropdownsTime = document.getElementsByClassName("dropdowntime-content");
+
         let i;
         for (i = 0; i < dropdowns.length; i++) {
             let openDropdown = dropdowns[i];
@@ -282,49 +290,8 @@ window.onclick = function (event) {
                 openDropdown.classList.remove('show');
             }
         }
-
-        // for (i = 0; i < dropdownsTime.length; i++) {
-        //     let openDropdown = dropdownsTime[i];
-        //     if (openDropdown.classList.contains('show')) {
-        //         openDropdown.classList.remove('show');
-        //     }
-        // }
     }
 }
-
-//const time_start = '2021-09-01T00:00:00';
-let symbolId = 'BITSTAMP_SPOT_BTC_USD';
-//const time_end = '2021-11-09T00:00:00';
-let today = new Date();
-let diffTime = new Date();
-diffTime.setDate(diffTime.getDate() - 1);
-let time_end = setTime(today);
-let time_start = setTime(diffTime);
-const limit = 100;
-
-let TimeId = new Map();
-
-//TimeId.set('6 hours', new Date(new Date().setHours(today.getHours() - 6)));
-TimeId.set('6 hour', new Date(new Date().setHours(today.getHours() - 6)));
-TimeId.set('12 hours', new Date(new Date().setHours(today.getHours() - 12)));
-TimeId.set('1 day', new Date(new Date().setDate(today.getDate() - 1)));
-TimeId.set('1 week', new Date(new Date().setDate(today.getDate() - 7)));
-//TimeId.set('5 days', new Date(new Date().setDate(today.getDate() - 5)));
-// TimeId.set('10 days', new Date(new Date().setDate(today.getDate() - 10)));
-// TimeId.set('15 days', new Date(new Date().setDate(today.getDate() - 15)));
-TimeId.set('1 month', new Date(new Date().setMonth(today.getMonth() - 1)));
-//TimeId.set('3 months', new Date(new Date().setMonth(today.getMonth() - 3)));
-//TimeId.set('6 months', new Date(new Date().setMonth(today.getMonth() - 6)));
-TimeId.set('1 year', new Date(new Date().setFullYear(today.getFullYear() - 1)));
-//TimeId.set('2 year', new Date(new Date().setFullYear(today.getFullYear() - 2)));
-
-let data = new DataModel();
-const el = document.getElementById('myChart');
-const ctx = el.getContext('2d');
-// ctx.canvas.width = window.innerWidth;
-// ctx.canvas.height = window.innerHeight;
-let view = new viewModel();
-let myChart = new Chart(ctx, view.chartConfig());
 
 const CoinID = new Map();
 CoinID.set('Bitcoin', 'BITSTAMP_SPOT_BTC_USD');
@@ -332,21 +299,42 @@ CoinID.set('Ethereum', 'ETOROX_SPOT_ETC_USD');
 CoinID.set('Atom', 'ETOROX_SPOT_ATOM_USD');
 CoinID.set('Doge', 'ETOROX_SPOT_DOGE_USD');
 
+
+let symbolId = 'BITSTAMP_SPOT_BTC_USD';
+let today = new Date();
+let diffTime = new Date();
+diffTime.setDate(diffTime.getDate() - 1);
+let time_end = setTime(today);
+let time_start = setTime(diffTime);
+let limit = 150;
+document.getElementById("timefromto").innerText = "from " + DataModel.FormatDate(today, 'yyyy-mm-ddThh:mm:ss') + " to " + DataModel.FormatDate(diffTime, 'yyyy-mm-ddThh:mm:ss');
+
+
+let TimeId = new Map();
+TimeId.set('6 hour', new Date(new Date().setHours(today.getHours() - 6)));
+TimeId.set('12 hours', new Date(new Date().setHours(today.getHours() - 12)));
+TimeId.set('1 day', new Date(new Date().setDate(today.getDate() - 1)));
+TimeId.set('1 week', new Date(new Date().setDate(today.getDate() - 7)));
+TimeId.set('1 month', new Date(new Date().setMonth(today.getMonth() - 1)));
+TimeId.set('1 year', new Date(new Date().setFullYear(today.getFullYear() - 1)));
+
+
+
+
+let data = new DataModel();
+const el = document.getElementById('myChart');
+const ctx = el.getContext('2d');
+
+let view = new viewModel();
+let myChart = new Chart(ctx, view.chartConfig());
+
+
 async function main() {
     let result;
-    try {
-        await data.getPeriod();
-    } catch (err) {
-        if (err instanceof HttpError) {
-            err.CodeError();
-        } else {
-            alert(err);
-            throw err;
-        }
-    }
-    let periodId = data.CalculatePeriodId(limit, time_start, time_end);
 
     try {
+        await data.getPeriod();
+        let periodId = data.CalculatePeriodId(limit, time_start, time_end);
         result = await data.getData(periodId);
     } catch (err) {
         if (err instanceof HttpError) {
@@ -356,12 +344,12 @@ async function main() {
             throw err;
         }
     }
+
     let date = result[0].map(DataModel.FormatDate);
     let price = result[1];
 
-    removeData(myChart);
-    addData(myChart, date, price);
-
+    view.removeData(myChart);
+    view.addData(myChart, date, price);
 }
 
 main();

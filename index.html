@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ChartCoins</title>
     <style>
         .dropbtn {
+            display: inline;
+            position: fixed;
             background-color: #434546;
             color: white;
             padding: 10px;
-            font-size: 10px;
+            font-size: 14px;
             border: none;
             cursor: pointer;
+            margin-left: 30px;
+
+
         }
 
         .dropbtn:hover, .dropbtn:focus {
@@ -35,6 +40,7 @@
             display: inline-block;
             width: 100%;
             margin: 0;
+
         }
 
         .dropdown a:hover {
@@ -83,8 +89,11 @@
         }
 
         .timebutton {
-            display: inline-block;
-            margin-left: 200px;
+            display: inline;
+            margin-left: 50%;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 0;
         }
 
         .btn {
@@ -93,9 +102,11 @@
             background-color: #868484;
             color: #a6a4a4;
             padding: 8px;
-            font-size: 8px;
-            border: none;
+            font-size: 12px;
+            border-radius: 50%;
+            border: #868484;
             cursor: pointer;
+
         }
 
         .btn:hover, .btn:focus {
@@ -108,15 +119,27 @@
         /*    margin: 0;*/
         /*    position: fixed;*/
         /*}*/
-        .conv {
-            width: 89%;
-            height: 100%;
-            margin: 0;
+        .chart {
+            max-width: 87%;
+            margin-right: auto;
+            margin-left: auto;
+            padding-top: 15px;
 
         }
 
         .show {
             display: block;
+        }
+        body {
+            background-color: #262424;
+
+        }
+        .timeshow {
+            display: inline;
+            padding: 8px;
+            font-size: 16px;
+            margin-left: 150px;
+            color: #a6a4a4;
         }
     </style>
 </head>
@@ -124,55 +147,33 @@
 
 
 <div class="dropdown">
-    <p class="text"> Choose coin: </p>
-    <button class="dropbtn" id="choose-coin" onclick="ButtonChooseCoin()"> Bitcoin</button>
+<!--    <p class="text"> Choose coin: </p>-->
+    <button class="dropbtn" id="choose-coin" onclick="ButtonChooseCoin()"> Choose coin: Bitcoin </button>
     <div class="dropdown-content" id="myDropdownCoin">
         <p onclick="ChooseCoin('Bitcoin')">Bitcoin</p>
         <p onclick="ChooseCoin('Ethereum')">Ethereum</p>
         <p onclick="ChooseCoin('Atom')">Atom</p>
         <p onclick="ChooseCoin('Doge')">Doge</p>
     </div>
-<!--    <button class="dropbtn" id="choose-time" onclick="ButtonChooseTime()"> 1 day</button>-->
-<!--    <div class="dropdowntime-content" id="myDropdownTime">-->
 
-<!--        <p onclick="ChooseTime('6 hours')">6 hours</p>-->
-<!--        <p onclick="ChooseTime('12 hours')">12 hours</p>-->
-<!--        <p onclick="ChooseTime('1 day')">1 day</p>-->
-<!--        <p onclick="ChooseTime('5 days')">5 days</p>-->
-<!--        <p onclick="ChooseTime('10 days')">10 days</p>-->
-<!--        <p onclick="ChooseTime('15 days')">15 days</p>-->
-<!--        <p onclick="ChooseTime('1 month')">1 month</p>-->
-<!--        <p onclick="ChooseTime('3 months')">3 month</p>-->
-<!--        <p onclick="ChooseTime('6 months')">6 month</p>-->
-<!--        <p onclick="ChooseTime('1 year')">1 year</p>-->
-<!--        <p onclick="ChooseTime('2 year')">2 year</p>-->
-<!--    </div>-->
     <div class="timebutton">
-        <button class="btn" onclick="ChooseTime('6 hour')"> 6 hour</button>
-        <button class="btn" onclick="ChooseTime('12 hours')"> 12 hours</button>
-        <button class="btn" onclick="ChooseTime('1 day')"> 1 day</button>
-        <button class="btn" onclick="ChooseTime('1 week')"> 1 week</button>
-        <button class="btn" onclick="ChooseTime('1 month')"> 1 month</button>
-        <button class="btn" onclick="ChooseTime('1 year')"> 1 year</button>
+        <button class="btn" onclick="ChooseTime('6 hour')"> 6 hour </button>
+        <button class="btn" onclick="ChooseTime('12 hours')"> 12 hours </button>
+        <button class="btn" onclick="ChooseTime('1 day')"> 1 day </button>
+        <button class="btn" onclick="ChooseTime('1 week')"> 1 week </button>
+        <button class="btn" onclick="ChooseTime('1 month')"> 1 month </button>
+        <button class="btn" onclick="ChooseTime('1 year')"> 1 year </button>
     </div>
+
+    <p class="timeshow" id="timefromto"> </p>
+
+
 </div>
 
-<div class="dropdown">
-    <!--    <p>Choose time:</p>-->
-
-</div>
-
-<!--<div class="timebutton">-->
-<!--    <button onclick="ChooseTime('1 hour')" class="btn"> 1 hour </button>-->
-<!--    <button onclick="ChooseTime('12 hours')" class="btn"> 12 hours </button>-->
-<!--    <button onclick="ChooseTime('1 day')" class="btn"> 1 day </button>-->
-<!--    <button onclick="ChooseTime('1 week')" class="btn"> 1 week </button>-->
-<!--    <button onclick="ChooseTime('1 month')" class="btn"> 1 month </button>-->
-<!--    <button onclick="ChooseTime('1 year')" class="btn"> 1 year </button>-->
-<!--</div>-->
-<div class="conv">
+<div class="chart">
     <canvas id="myChart"></canvas>
 </div>
+
 
 
 <script src=https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js></script>
