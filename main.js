@@ -9,7 +9,7 @@ class DataModel {
         this.periodMap = new Map();
         this.symbolMap = new Map();
         this.periodFlag = [];
-        this.APIKey = {"X-CoinAPI-Key": "24E08DB6-43BB-4192-A53A-353B2EEE4143"};
+        this.APIKey = {"X-CoinAPI-Key": "C8D4AAB2-DDCB-45E4-B54E-3962B85A8FC5"};
     }
 
     async getData(periodId) {
@@ -109,7 +109,12 @@ class DataModel {
         let mm = date.getMonth() + 1;
         if (mm < 10) mm = '0' + mm;
 
-        let yy = date.getFullYear() % 100;
+        let yy;
+        if (format == 'dd.mm.yyyy hh:mm:ss') {
+            yy = date.getFullYear() % 100;
+        } else if (format == 'yyyy-mm-ddThh:mm:ss') {
+            yy = date.getFullYear();
+        }
         if (yy < 10) yy = '0' + yy;
 
         let hh = date.getHours();
@@ -121,10 +126,14 @@ class DataModel {
         let ss = date.getSeconds();
         if (ss < 10) ss = '0' + ss;
 
-        if (format = 'dd.mm.yyyy hh:mm:ss') {
+
+
+        if (format == 'dd.mm.yyyy hh:mm:ss') {
             return dd + '.' + mm + '.' + yy + ' ' + hh + ':' + min + ':' + ss;
-        } else if (format = 'yyyy-mm-ddThh:mm:ss')
-        return yy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + ss;
+        } else if (format == 'yyyy-mm-ddThh:mm:ss') {
+            return yy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + ss;
+
+        }
     }
 
 }
@@ -220,31 +229,28 @@ class HttpError extends Error {
     }
 
     CodeError() {
-        if (this.response.status == 400) {
+        if (this.response.status === 400) {
             alert("There is something wrong with your request");
-        } else if (this.response.status == 401) {
+        } else if (this.response.status === 401) {
             alert("Unauthorized -- Your API key is wrong");
-        } else if (this.response.status == 403) {
+        } else if (this.response.status === 403) {
             alert("Forbidden -- Your API key doesn't have enough privileges to access this resource");
-        } else if (this.response.status == 429) {
+        } else if (this.response.status === 429) {
             alert("Too many requests -- You have exceeded your API key rate limits");
-        } else if (this.response.status == 550) {
+        } else if (this.response.status === 550) {
             alert("No data -- You requested specific single item that we don't have at this moment");
         }
     }
 }
-
-
 //input buttons
 function ButtonChooseCoin() {
     document.getElementById("myDropdownCoin").classList.toggle("show");
 }
 
-
 async function ChooseTime(ChoiceTime) {
     data.cleaningDate();
-    time_start = setTime(TimeId.get(ChoiceTime));
-    document.getElementsByClassName("timeshow").innerText = "from " + DataModel.FormatDate(new Date(time_start), 'dd.mm.yyyy hh:mm:ss') + " to " + DataModel.FormatDate(new Date(time_end), 'dd.mm.yyyy hh:mm:ss');
+    time_start = DataModel.FormatDate(TimeId.get(ChoiceTime), 'yyyy-mm-ddThh:mm:ss');
+    document.getElementById("timefromto").innerText = "from " + DataModel.FormatDate(new Date(time_start), 'dd.mm.yyyy hh:mm:ss') + " to " + DataModel.FormatDate(new Date(time_end), 'dd.mm.yyyy hh:mm:ss');
     await main();
 }
 
@@ -254,30 +260,6 @@ async function ChooseCoin(ChoiceCoins) {
     document.getElementById("choose-coin").innerText = ChoiceCoins;
     await main();
 }
-
-function setTime(date) {
-
-    let dd = date.getDate();
-    if (dd < 10) dd = '0' + dd;
-
-    let mm = date.getMonth() + 1;
-    if (mm < 10) mm = '0' + mm;
-
-    let yy = date.getFullYear();
-    if (yy < 10) yy = '0' + yy;
-
-    let hh = date.getHours();
-    if (hh < 10) hh = '0' + hh;
-
-    let min = date.getMinutes();
-    if (min < 10) min = '0' + min;
-
-    let ss = date.getSeconds();
-    if (ss < 10) ss = '0' + ss;
-
-    return yy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + ss;
-}
-
 
 window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
@@ -292,23 +274,21 @@ window.onclick = function (event) {
         }
     }
 }
-
+//Data for setup
 const CoinID = new Map();
 CoinID.set('Bitcoin', 'BITSTAMP_SPOT_BTC_USD');
 CoinID.set('Ethereum', 'ETOROX_SPOT_ETC_USD');
 CoinID.set('Atom', 'ETOROX_SPOT_ATOM_USD');
 CoinID.set('Doge', 'ETOROX_SPOT_DOGE_USD');
-
-
 let symbolId = 'BITSTAMP_SPOT_BTC_USD';
+
 let today = new Date();
 let diffTime = new Date();
 diffTime.setDate(diffTime.getDate() - 1);
-let time_end = setTime(today);
-let time_start = setTime(diffTime);
-let limit = 150;
-document.getElementById("timefromto").innerText = "from " + DataModel.FormatDate(today, 'yyyy-mm-ddThh:mm:ss') + " to " + DataModel.FormatDate(diffTime, 'yyyy-mm-ddThh:mm:ss');
-
+let time_end = DataModel.FormatDate(today, 'yyyy-mm-ddThh:mm:ss');
+let time_start = DataModel.FormatDate(diffTime, 'yyyy-mm-ddThh:mm:ss');
+let limit = 50;
+document.getElementById("timefromto").innerText = "from " + DataModel.FormatDate(today, 'dd.mm.yyyy hh:mm:ss') + " to " + DataModel.FormatDate(diffTime, 'dd.mm.yyyy hh:mm:ss');
 
 let TimeId = new Map();
 TimeId.set('6 hour', new Date(new Date().setHours(today.getHours() - 6)));
@@ -318,16 +298,12 @@ TimeId.set('1 week', new Date(new Date().setDate(today.getDate() - 7)));
 TimeId.set('1 month', new Date(new Date().setMonth(today.getMonth() - 1)));
 TimeId.set('1 year', new Date(new Date().setFullYear(today.getFullYear() - 1)));
 
-
-
-
 let data = new DataModel();
 const el = document.getElementById('myChart');
 const ctx = el.getContext('2d');
 
 let view = new viewModel();
 let myChart = new Chart(ctx, view.chartConfig());
-
 
 async function main() {
     let result;
@@ -345,7 +321,7 @@ async function main() {
         }
     }
 
-    let date = result[0].map(DataModel.FormatDate);
+    let date = result[0].map((value) => {return DataModel.FormatDate(value, 'dd.mm.yyyy hh:mm:ss')});
     let price = result[1];
 
     view.removeData(myChart);
