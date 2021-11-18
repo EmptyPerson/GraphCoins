@@ -268,7 +268,7 @@ async function ChooseCoin(ChoiceCoins) {
     await main();
 }
 
-async function fun1() {
+async function scrole() {
     data.cleaningDate();
     let rng = document.getElementById('r1');
     limit = rng.value;

@@ -51,14 +51,6 @@
             display: block;
         }
 
-        .dropdowntime-content a {
-            color: #000000;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-
         .text {
             display: inline;
             position: fixed;
@@ -105,10 +97,12 @@
         .show {
             display: block;
         }
+
         body {
             background-color: #262424;
 
         }
+
         .timeshow {
             display: inline;
             padding: 8px;
@@ -117,7 +111,7 @@
             color: #a6a4a4;
         }
 
-        input[type="range"]{
+        input[type="range"] {
             position: fixed;
             display: inline;
             width: 150px;
@@ -125,11 +119,6 @@
             padding: 8px;
         }
 
-        /*#btn-download {*/
-        /*    display: inline;*/
-        /*    padding: 8px;*/
-        /*    font-size: 16px;*/
-        /*}*/
     </style>
 </head>
 <body>
@@ -137,7 +126,7 @@
 
 <div class="dropdown">
 
-    <button class="dropbtn" id="choose-coin" onclick="ButtonChooseCoin()"> Choose coin: Bitcoin </button>
+    <button class="dropbtn" id="choose-coin" onclick="ButtonChooseCoin()"> Choose coin: Bitcoin</button>
 
     <div class="dropdown-content" id="myDropdownCoin">
         <p onclick="ChooseCoin('Bitcoin')">Bitcoin</p>
@@ -148,18 +137,18 @@
 
     <p class="text"> Amount of points </p>
 
-    <input type="range" id="r1" min="1" max="1000" value="100" step="1" onchange="fun1()">
+    <input id="r1" max="1000" min="1" onchange="scrole()" step="1" type="range" value="100">
 
     <div class="timebutton">
-        <button class="btn" onclick="ChooseTime('6 hour')"> 6 hour </button>
-        <button class="btn" onclick="ChooseTime('12 hours')"> 12 hours </button>
-        <button class="btn" onclick="ChooseTime('1 day')"> 1 day </button>
-        <button class="btn" onclick="ChooseTime('1 week')"> 1 week </button>
-        <button class="btn" onclick="ChooseTime('1 month')"> 1 month </button>
-        <button class="btn" onclick="ChooseTime('1 year')"> 1 year </button>
+        <button class="btn" onclick="ChooseTime('6 hour')"> 6 hour</button>
+        <button class="btn" onclick="ChooseTime('12 hours')"> 12 hours</button>
+        <button class="btn" onclick="ChooseTime('1 day')"> 1 day</button>
+        <button class="btn" onclick="ChooseTime('1 week')"> 1 week</button>
+        <button class="btn" onclick="ChooseTime('1 month')"> 1 month</button>
+        <button class="btn" onclick="ChooseTime('1 year')"> 1 year</button>
     </div>
 
-    <p class="timeshow" id="timefromto"> </p>
+    <p class="timeshow" id="timefromto"></p>
 
     <button class="btn" id="btn-download">
         Download
@@ -169,7 +158,6 @@
 <div class="chart">
     <canvas id="myChart"></canvas>
 </div>
-
 
 
 <script src=https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js></script>
