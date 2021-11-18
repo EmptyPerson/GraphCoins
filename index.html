@@ -22,19 +22,6 @@
             background-color: #000000;
         }
 
-        .dropbutton {
-            background-color: #3498DB;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .dropbutton:hover, .dropbtn:focus {
-            background-color: #000000;
-        }
-
         .dropdown {
             position: relative;
             display: inline-block;
@@ -64,16 +51,6 @@
             display: block;
         }
 
-        .dropdowntime-content {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            overflow: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
         .dropdowntime-content a {
             color: #000000;
             padding: 12px 16px;
@@ -83,9 +60,13 @@
 
 
         .text {
-            display: inline-block;
-            font-size: 20px;
-
+            display: inline;
+            position: fixed;
+            font-size: 16px;
+            margin-left: 18%;
+            color: #a6a4a4;
+            padding-top: 8px;
+            margin-top: 0;
         }
 
         .timebutton {
@@ -113,12 +94,6 @@
             background-color: #000000;
         }
 
-        /*html, body {*/
-        /*    width: 100%;*/
-        /*    height: 100%;*/
-        /*    margin: 0;*/
-        /*    position: fixed;*/
-        /*}*/
         .chart {
             max-width: 87%;
             margin-right: auto;
@@ -141,20 +116,39 @@
             margin-left: 150px;
             color: #a6a4a4;
         }
+
+        input[type="range"]{
+            position: fixed;
+            display: inline;
+            width: 150px;
+            margin-left: 25%;
+            padding: 8px;
+        }
+
+        /*#btn-download {*/
+        /*    display: inline;*/
+        /*    padding: 8px;*/
+        /*    font-size: 16px;*/
+        /*}*/
     </style>
 </head>
 <body>
 
 
 <div class="dropdown">
-<!--    <p class="text"> Choose coin: </p>-->
+
     <button class="dropbtn" id="choose-coin" onclick="ButtonChooseCoin()"> Choose coin: Bitcoin </button>
+
     <div class="dropdown-content" id="myDropdownCoin">
         <p onclick="ChooseCoin('Bitcoin')">Bitcoin</p>
         <p onclick="ChooseCoin('Ethereum')">Ethereum</p>
         <p onclick="ChooseCoin('Atom')">Atom</p>
         <p onclick="ChooseCoin('Doge')">Doge</p>
     </div>
+
+    <p class="text"> Amount of points </p>
+
+    <input type="range" id="r1" min="1" max="1000" value="100" step="1" onchange="fun1()">
 
     <div class="timebutton">
         <button class="btn" onclick="ChooseTime('6 hour')"> 6 hour </button>
@@ -167,7 +161,9 @@
 
     <p class="timeshow" id="timefromto"> </p>
 
-
+    <button class="btn" id="btn-download">
+        Download
+    </button>
 </div>
 
 <div class="chart">

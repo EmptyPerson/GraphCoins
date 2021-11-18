@@ -9,7 +9,7 @@ class DataModel {
         this.periodMap = new Map();
         this.symbolMap = new Map();
         this.periodFlag = [];
-        this.APIKey = {"X-CoinAPI-Key": "C8D4AAB2-DDCB-45E4-B54E-3962B85A8FC5"};
+        this.APIKey = {"X-CoinAPI-Key": "F48B7E48-AFAC-4AA4-8159-9EAC547589A1"};
     }
 
     async getData(periodId) {
@@ -101,7 +101,7 @@ class DataModel {
 
     }
 
-    static FormatDate(date, format = 'dd.mm.yyyy hh:mm:ss') {
+    static FormatDate(date, format) {
 
         let dd = date.getDate();
         if (dd < 10) dd = '0' + dd;
@@ -125,7 +125,6 @@ class DataModel {
 
         let ss = date.getSeconds();
         if (ss < 10) ss = '0' + ss;
-
 
 
         if (format == 'dd.mm.yyyy hh:mm:ss') {
@@ -172,36 +171,42 @@ class viewModel {
                     borderWidth: 1
                 }]
             },
-             options: {
+            options: {
                 scales: {
-
                     x: {
                         grid: {
-                            display: false
+                            display: false,
+                            borderColor: 'rgba(0, 0, 0, 1)'
                         },
                         ticks: {
-                            color: 'rgba(255, 99, 132, 1)'
-                        },
+                            color: 'rgba(255, 99, 132, 1)',
+                            stepSize : 50,
+                        }
 
                     },
                     y: {
+                        grid: {
+                            borderColor: 'rgba(0, 0, 0, 1)'
+                        },
                         ticks: {
                             color: 'rgba(255, 99, 132, 1)'
                         }
+
                     }
                 },
-                 plugins: {
-                     legend: {
-                         display: false,
+                plugins: {
+                    legend: {
+                        display: false,
 
-                     }
-                 }
-             }
+                    }
+                }
+            }
 
 
         };
 
     }
+
     addData(chart, labels, data) {
         labels.forEach((label) => {
             chart.data.labels.push(label);
@@ -213,6 +218,7 @@ class viewModel {
         });
         chart.update();
     }
+
     removeData(chart) {
         chart.data.labels = [];
         myChart.data.datasets[0].data = []
@@ -242,6 +248,7 @@ class HttpError extends Error {
         }
     }
 }
+
 //input buttons
 function ButtonChooseCoin() {
     document.getElementById("myDropdownCoin").classList.toggle("show");
@@ -259,6 +266,20 @@ async function ChooseCoin(ChoiceCoins) {
     symbolId = CoinID.get(ChoiceCoins);
     document.getElementById("choose-coin").innerText = ChoiceCoins;
     await main();
+}
+
+async function fun1() {
+    data.cleaningDate();
+    let rng = document.getElementById('r1');
+    limit = rng.value;
+    await main();
+}
+
+document.getElementById('btn-download').onclick = function() {
+    let a = document.createElement('a');
+    a.href = myChart.toBase64Image();
+    a.download = 'CoinChart.png';
+    a.click();
 }
 
 window.onclick = function (event) {
@@ -287,7 +308,7 @@ let diffTime = new Date();
 diffTime.setDate(diffTime.getDate() - 1);
 let time_end = DataModel.FormatDate(today, 'yyyy-mm-ddThh:mm:ss');
 let time_start = DataModel.FormatDate(diffTime, 'yyyy-mm-ddThh:mm:ss');
-let limit = 50;
+let limit = '50';
 document.getElementById("timefromto").innerText = "from " + DataModel.FormatDate(today, 'dd.mm.yyyy hh:mm:ss') + " to " + DataModel.FormatDate(diffTime, 'dd.mm.yyyy hh:mm:ss');
 
 let TimeId = new Map();
@@ -321,7 +342,9 @@ async function main() {
         }
     }
 
-    let date = result[0].map((value) => {return DataModel.FormatDate(value, 'dd.mm.yyyy hh:mm:ss')});
+    let date = result[0].map((value) => {
+        return DataModel.FormatDate(value, 'dd.mm.yyyy hh:mm:ss')
+    });
     let price = result[1];
 
     view.removeData(myChart);
