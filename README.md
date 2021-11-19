@@ -1,2 +1,2 @@
 # GraphCoins
-Check demo and you anderstand everything https://emptyperson.github.io/GraphCoins/
+Check demo and you understand everything https://emptyperson.github.io/GraphCoins/
