@@ -9,7 +9,7 @@ class DataModel {
         this.periodMap = new Map();
         this.symbolMap = new Map();
         this.periodFlag = [];
-        this.APIKey = {"X-CoinAPI-Key": "777B48C8-47BD-4B0D-A78F-C53E6F76775A"};
+        this.APIKey = {"X-CoinAPI-Key": "B722C7F8-D968-40EE-8F5E-9CEC7DECEC1D"};
     }
 
     async getData(periodId) {
