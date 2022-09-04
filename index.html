@@ -4,17 +4,24 @@
     <meta charset="UTF-8">
     <title>ChartCoins</title>
     <style>
+        .dropdown {
+
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 0;
+            align-items: center;
+
+        }
         .dropbtn {
-            display: inline;
-            position: fixed;
+            display: flex;
             background-color: #434546;
             color: white;
-            padding: 10px;
             font-size: 14px;
             border: none;
             cursor: pointer;
             margin-left: 30px;
-
+            margin-top: 10px;
 
         }
 
@@ -22,13 +29,7 @@
             background-color: #000000;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            margin: 0;
 
-        }
 
         .dropdown a:hover {
             background-color: #ddd;
@@ -42,6 +43,7 @@
             overflow: auto;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
+            margin-top: 50px;
         }
 
         .dropdown-content a {
@@ -52,18 +54,18 @@
         }
 
         .text {
-            display: inline;
-            position: fixed;
+            display: flex;
+            width: 20%;
             font-size: 16px;
-            margin-left: 18%;
+            margin-left: 200px;
             color: #a6a4a4;
             padding-top: 8px;
             margin-top: 0;
         }
 
         .timebutton {
-            display: inline;
-            margin-left: 50%;
+            display: flex;
+            margin-left: 50px;
             margin-top: 0;
             margin-bottom: 0;
             padding: 0;
@@ -112,10 +114,10 @@
         }
 
         input[type="range"] {
-            position: fixed;
-            display: inline;
-            width: 150px;
-            margin-left: 25%;
+
+            display: flex;
+
+
             padding: 8px;
         }
 
